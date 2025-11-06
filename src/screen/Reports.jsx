@@ -11,7 +11,6 @@ export const Reports = () => {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [splash, setSplash] = useState(true);
-
   const [reportSelected, setReportSelected] = useState(null);
 
   const statusMap = {
@@ -40,37 +39,33 @@ export const Reports = () => {
       if (!response.ok) throw new Error("Error al obtener denuncias");
       const data = await response.json();
       setReports(data);
-    } catch (error) {
+    } catch {
       toast.error("Hubo un error al cargar las denuncias");
     } finally {
       setLoading(false);
     }
   };
 
-
-const handleEditReport = (report) => {
-  setIsOpen(true);
-  setReportSelected(report);
-};
-
-const editReport = async ({id, user_id, title, category, description, location}) => {  
-  try {
-    if(!user_id ||  !title || !category || !description || !location) throw new Error('Bad request');
-    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/report/update-report/${id}`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user_id, title, category, description, location }),
-    });
-    console.log('response: ', response);
-    if (!response.ok) throw new Error();
-    toast.success("Denuncia actualizada correctamente");
-    loadReports(filter);
-  } catch(err) {
-    console.log('err: ', err); 
-    toast.error("No se pudo editar la denuncia");
+  const handleEditReport = (report) => {
+    setIsOpen(true);
+    setReportSelected(report);
   };
-};
 
+  const editReport = async ({ id, user_id, title, category, description, location }) => {
+    try {
+      if (!user_id || !title || !category || !description || !location) throw new Error("Bad request");
+      const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/report/update-report/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id, title, category, description, location }),
+      });
+      if (!response.ok) throw new Error();
+      toast.success("Denuncia actualizada correctamente");
+      loadReports(filter);
+    } catch {
+      toast.error("No se pudo editar la denuncia");
+    }
+  };
 
   const deleteReport = async (id) => {
     if (!confirm("¿Eliminar esta denuncia?")) return;
@@ -129,14 +124,13 @@ const editReport = async ({id, user_id, title, category, description, location})
     return () => clearTimeout(timer);
   }, [filter]);
 
-  // --- Splash screen mejorado ---
+  // Splash Screen
   if (splash) {
     return (
       <motion.div
-        className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-blue-700 to-blue-400 text-white"
+        className="flex flex-col items-center justify-center h-screen bg-gradient-to-br from-[#0F4C75] to-[#3282B8] text-white"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
       >
         <motion.img
           src="/img/mi_logo.png"
@@ -158,9 +152,9 @@ const editReport = async ({id, user_id, title, category, description, location})
     );
   }
 
-  // --- Navbar ---
+  // Navbar
   const Navbar = () => (
-    <nav className="bg-blue-600 text-white shadow-lg">
+    <nav className="bg-[#0F4C75] text-white shadow-md">
       <div className="container mx-auto flex justify-between items-center py-3 px-4">
         <button
           onClick={() => (window.location.href = "/menu.html")}
@@ -172,7 +166,7 @@ const editReport = async ({id, user_id, title, category, description, location})
         {user?.role_type === "user" && (
           <button
             onClick={showModalReport}
-            className="bg-white text-blue-600 px-4 py-2 rounded-md font-semibold hover:bg-blue-100 transition-all"
+            className="bg-[#BBE1FA] text-[#0F4C75] px-4 py-2 rounded-md font-semibold hover:bg-[#A0D6FA] transition-all"
           >
             Nueva denuncia
           </button>
@@ -182,14 +176,14 @@ const editReport = async ({id, user_id, title, category, description, location})
   );
 
   return (
-    <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen font-[Poppins] flex flex-col">
+    <div className="bg-gradient-to-b from-[#F9FAFB] to-[#E8F1F5] min-h-screen font-[Poppins] flex flex-col text-[#1B262C]">
       <Toaster position="top-right" />
       <Navbar />
 
       <div className="container mx-auto max-w-4xl py-8 flex-grow">
         {/* Filtros */}
         <motion.div
-          className="bg-white p-4 rounded-2xl shadow-md flex flex-wrap gap-2 justify-center"
+          className="bg-white p-4 rounded-2xl shadow-md flex flex-wrap gap-2 justify-center border border-[#BBE1FA]"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
         >
@@ -199,8 +193,8 @@ const editReport = async ({id, user_id, title, category, description, location})
               onClick={() => setFilter(status)}
               className={`px-4 py-2 rounded-lg font-medium transition-all ${
                 filter === status
-                  ? "bg-blue-600 text-white shadow-md"
-                  : "bg-blue-100 text-blue-700 hover:bg-blue-200"
+                  ? "bg-[#3282B8] text-white shadow-md"
+                  : "bg-[#E8F1F5] text-[#0F4C75] hover:bg-[#BBE1FA]"
               }`}
             >
               {status}
@@ -214,7 +208,7 @@ const editReport = async ({id, user_id, title, category, description, location})
             {loading ? (
               <motion.p
                 key="loading"
-                className="text-center text-blue-500"
+                className="text-center text-[#3282B8]"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
@@ -233,11 +227,11 @@ const editReport = async ({id, user_id, title, category, description, location})
               reports.map((report) => (
                 <motion.div
                   key={report.id}
-                  className="bg-white rounded-2xl shadow-md p-5 mb-4 hover:shadow-lg transition-transform hover:-translate-y-1"
+                  className="bg-white border border-[#E8F1F5] rounded-2xl shadow-md p-5 mb-4 hover:shadow-lg transition-transform hover:-translate-y-1"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                 >
-                  <h5 className="text-blue-600 font-semibold text-lg">{report.title || "Sin título"}</h5>
+                  <h5 className="text-[#0F4C75] font-semibold text-lg">{report.title || "Sin título"}</h5>
                   <p><strong>Categoría:</strong> {report.category || "N/A"}</p>
                   <p><strong>Descripción:</strong> {report.description || "Sin descripción"}</p>
                   <p><strong>Ubicación:</strong> {report.location || "No especificada"}</p>
@@ -276,14 +270,14 @@ const editReport = async ({id, user_id, title, category, description, location})
                     {user?.role_type === "user" && (
                       <>
                         <button
-                          onClick={()=>handleEditReport(report)}
-                          className="bg-yellow-400 text-black px-3 py-1 rounded hover:bg-yellow-300 transition"
+                          onClick={() => handleEditReport(report)}
+                          className="bg-[#FFD166] text-black px-3 py-1 rounded hover:bg-[#FFCA3A] transition"
                         >
                           Editar
                         </button>
                         <button
                           onClick={() => deleteReport(report.id)}
-                          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
+                          className="bg-[#EF476F] text-white px-3 py-1 rounded hover:bg-[#E63946] transition"
                         >
                           Eliminar
                         </button>
@@ -297,20 +291,23 @@ const editReport = async ({id, user_id, title, category, description, location})
         </div>
       </div>
 
-      {/* Footer fijo al fondo */}
+      {/* Footer */}
       <motion.footer
-        className="bg-blue-600 text-white text-center py-6 mt-auto w-full shadow-inner"
+        className="bg-[#0F4C75] text-white text-center py-6 mt-auto w-full shadow-inner"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
       >
         <p className="italic">Gracias por contribuir a mejorar tu comunidad 💙</p>
       </motion.footer>
 
-      {
-        (isOpen) &&
-          <FormReport isOpen={isOpen} onClose={hiddeModalReport} report={reportSelected} updateReport={editReport} />
-      }
-
+      {isOpen && (
+        <FormReport
+          isOpen={isOpen}
+          onClose={hiddeModalReport}
+          report={reportSelected}
+          updateReport={editReport}
+        />
+      )}
     </div>
   );
 };

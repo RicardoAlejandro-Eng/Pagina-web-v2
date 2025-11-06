@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Eye, EyeOff } from "lucide-react"; // 👈 nuevos íconos
+import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 
 export const Login = () => {
@@ -15,9 +15,7 @@ export const Login = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const passwordRegex =
-    /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).{8,}$/;
-
+  const passwordRegex = /^(?=.[A-Z])(?=.[a-z])(?=.\d)(?=.\W).{8,}$/;
   const isPasswordValid = passwordRegex.test(pass);
 
   const handleSubmit = async (e) => {
@@ -26,7 +24,7 @@ export const Login = () => {
     setSuccess("");
 
     if (isRegistering && !isPasswordValid) {
-      setError("⚠️ La contraseña no cumple con los requisitos de seguridad.");
+      setError("⚠ La contraseña no cumple con los requisitos de seguridad.");
       return;
     }
 
@@ -35,12 +33,7 @@ export const Login = () => {
       : `${import.meta.env.VITE_SERVER_URL}/api/auth/login`;
 
     const body = isRegistering
-      ? {
-          name,
-          email: user,
-          password: pass,
-          role_type: "user",
-        }
+      ? { name, email: user, password: pass, role_type: "user" }
       : { email: user, password: pass };
 
     try {
@@ -51,7 +44,6 @@ export const Login = () => {
       });
 
       if (!request.ok) throw new Error("Failed request");
-
       const res = await request.json();
 
       if (isRegistering) {
@@ -71,8 +63,8 @@ export const Login = () => {
     } catch (err) {
       setError(
         isRegistering
-          ? "⚠️ No se pudo completar el registro."
-          : "⚠️ Usuario o contraseña incorrectos."
+          ? "⚠ No se pudo completar el registro."
+          : "⚠ Usuario o contraseña incorrectos."
       );
     }
   };
@@ -85,7 +77,9 @@ export const Login = () => {
     <div className="min-h-screen flex flex-col md:flex-row">
       {/* Lado izquierdo */}
       <motion.div
-        className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-blue-600 to-blue-400 text-white p-8 relative overflow-hidden"
+        className="flex-1 flex flex-col items-center justify-center 
+                   bg-gradient-to-br from-blue-900 via-indigo-950 to-blue-950 
+                   text-white p-8 relative overflow-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5 }}
@@ -98,7 +92,6 @@ export const Login = () => {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
         />
-
         <motion.h2
           className="text-3xl md:text-4xl font-bold z-10"
           initial={{ y: 20, opacity: 0 }}
@@ -107,18 +100,16 @@ export const Login = () => {
         >
           Bienvenido a Integradora
         </motion.h2>
-
         <motion.p
-          className="text-blue-100 mt-3 z-10 text-center"
+          className="text-blue-200 mt-3 z-10 text-center"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.8, duration: 1 }}
         >
           Gestiona tus denuncias de manera rápida y segura.
         </motion.p>
-
         <motion.div
-          className="absolute -bottom-10 left-0 right-0 h-32 bg-white opacity-10 blur-3xl"
+          className="absolute -bottom-10 left-0 right-0 h-32 bg-white/10 blur-3xl"
           animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
           transition={{ repeat: Infinity, duration: 4 }}
         />
@@ -132,7 +123,7 @@ export const Login = () => {
         transition={{ duration: 1 }}
       >
         <div className="w-full max-w-md">
-          <h3 className="text-blue-600 font-bold text-2xl mb-6 text-center">
+          <h3 className="text-blue-200 font-bold text-2xl mb-6 text-center">
             {isRegistering ? "Crear Cuenta" : "Iniciar Sesión"}
           </h3>
 
@@ -143,21 +134,19 @@ export const Login = () => {
                 placeholder="Nombre completo"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
               />
             )}
-
             <input
               type="email"
               placeholder="Correo electrónico"
               value={user}
               onChange={(e) => setUser(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               autoComplete="username"
               required
             />
-
             <div className="relative">
               <input
                 type={showPass ? "text" : "password"}
@@ -170,7 +159,7 @@ export const Login = () => {
                       ? "border-green-400"
                       : "border-red-400"
                     : "border-gray-300"
-                } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400`}
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 autoComplete="current-password"
                 required
               />
@@ -198,7 +187,7 @@ export const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition"
+              className="w-full bg-blue-800 text-white font-semibold py-3 rounded-lg hover:bg-blue-900 transition"
             >
               {isRegistering ? "Registrarse" : "Entrar"}
             </button>
@@ -209,7 +198,6 @@ export const Login = () => {
               {error}
             </div>
           )}
-
           {success && (
             <div className="mt-4 text-center text-green-600 font-medium">
               {success}
