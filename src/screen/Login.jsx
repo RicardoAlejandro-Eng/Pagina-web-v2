@@ -31,7 +31,7 @@ export const Login = () => {
     }
 
     const url = isRegistering
-      ? `http://localhost:3000/api/auth/create-user`
+      ? `${import.meta.env.VITE_SERVER_URL}/api/auth/create-user`
       : `${import.meta.env.VITE_SERVER_URL}/api/auth/login`;
 
     const body = isRegistering
