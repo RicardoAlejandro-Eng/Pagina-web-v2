@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Eye, EyeOff } from "lucide-react"; // 👈 nuevos íconos
 import { useAuth } from "../context/AuthContext";
 
 export const Login = () => {
@@ -30,7 +31,7 @@ export const Login = () => {
     }
 
     const url = isRegistering
-      ? `${import.meta.env.VITE_SERVER_URL}/api/auth/create-user`
+      ? `http://localhost:3000/api/auth/create-user`
       : `${import.meta.env.VITE_SERVER_URL}/api/auth/login`;
 
     const body = isRegistering
@@ -82,7 +83,7 @@ export const Login = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Lado izquierdo con animación */}
+      {/* Lado izquierdo */}
       <motion.div
         className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-blue-600 to-blue-400 text-white p-8 relative overflow-hidden"
         initial={{ opacity: 0 }}
@@ -176,17 +177,15 @@ export const Login = () => {
               <button
                 type="button"
                 onClick={() => setShowPass(!showPass)}
-                className="absolute right-3 top-3 text-gray-500 hover:text-blue-500"
+                className="absolute right-3 top-3 text-gray-700 hover:text-black transition"
               >
-                {showPass ? "🙈" : "👁️"}
+                {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
 
             {isRegistering && (
               <div className="text-sm text-gray-600 mt-1">
-                <p>
-                  🔒 La contraseña debe incluir:
-                </p>
+                <p>🔒 La contraseña debe incluir:</p>
                 <ul className="list-disc ml-6">
                   <li>Una mayúscula (A-Z)</li>
                   <li>Una minúscula (a-z)</li>
