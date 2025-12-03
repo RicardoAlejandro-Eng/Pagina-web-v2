@@ -98,7 +98,7 @@ export const Login = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 1 }}
         >
-          Bienvenido a Integradora
+          Bienvenido a RAVD
         </motion.h2>
         <motion.p
           className="text-blue-200 mt-3 z-10 text-center"
@@ -136,8 +136,10 @@ export const Login = () => {
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
+                maxLength={60}
               />
             )}
+
             <input
               type="email"
               placeholder="Correo electrónico"
@@ -146,7 +148,9 @@ export const Login = () => {
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               autoComplete="username"
               required
+              maxLength={80}
             />
+
             <div className="relative">
               <input
                 type={showPass ? "text" : "password"}
@@ -162,6 +166,7 @@ export const Login = () => {
                 } rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 autoComplete="current-password"
                 required
+                maxLength={50}
               />
               <button
                 type="button"
