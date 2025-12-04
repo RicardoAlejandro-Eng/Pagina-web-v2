@@ -15,7 +15,8 @@ export const Login = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const passwordRegex = /^(?=.[A-Z])(?=.[a-z])(?=.\d)(?=.\W).{8,}$/;
+  // 🔹 Regex corregido
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*\W).{8,}$/;
   const isPasswordValid = passwordRegex.test(pass);
 
   const handleSubmit = async (e) => {
@@ -75,7 +76,6 @@ export const Login = () => {
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Lado izquierdo */}
       <motion.div
         className="flex-1 flex flex-col items-center justify-center 
                    bg-gradient-to-br from-blue-900 via-indigo-950 to-blue-950 
@@ -115,7 +115,6 @@ export const Login = () => {
         />
       </motion.div>
 
-      {/* Lado derecho con formulario */}
       <motion.div
         className="flex-1 flex items-center justify-center bg-white p-8"
         initial={{ x: 100, opacity: 0 }}
